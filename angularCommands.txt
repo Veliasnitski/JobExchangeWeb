@@ -1,0 +1,2 @@
+ng g s services/auth - create service (auth name)
+ng g c components/dashboard
