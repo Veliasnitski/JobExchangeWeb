@@ -30,12 +30,12 @@
                             </div>
                             <small *ngIf="signupForm.controls['email'].dirty && signupForm.hasError('required','email')" class="text-danger">*Email is requared</small>
                             <div class="form-group pt-3">
-                                <div class="input-field" [class.error]="signupForm.controls['userName'].dirty && signupForm.hasError('required','userName')">
+                                <div class="input-field" [class.error]="signupForm.controls['username'].dirty && signupForm.hasError('required','username')">
                                     <span class="fa fa-user p-2"></span>
-                                    <input formControlName="userName" type="text" placeholder="Username">
+                                    <input formControlName="username" type="text" placeholder="username">
                                 </div>
                             </div>
-                            <small *ngIf="signupForm.controls['userName'].dirty && signupForm.hasError('required','userName')" class="text-danger">*User name is requared</small>
+                            <small *ngIf="signupForm.controls['username'].dirty && signupForm.hasError('required','username')" class="text-danger">*User name is requared</small>
                             <div class="form-group pt-3">
                                 <div class="input-field" [class.error]="signupForm.controls['password'].dirty && signupForm.hasError('required','password')">
                                     <span class="fa fa-lock p-2"></span>

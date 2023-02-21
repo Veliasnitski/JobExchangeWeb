@@ -1,2 +1,6 @@
+ng new [name] - create new project
 ng g s services/auth - create service (auth name)
-ng g c components/dashboard
+ng g c components/dashboard - new component (dashboard name)
+ng g g auth - create component for observer and guard route
+ng g interceptor token
+npm i @auth0/angular-jwt
