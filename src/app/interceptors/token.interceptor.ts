@@ -1,3 +1,4 @@
+import { TokenApiModel } from './../models/token-api.model';
 import { NgToastService } from 'ng-angular-popup';
 import { Injectable } from '@angular/core';
 import {
@@ -7,7 +8,7 @@ import {
   HttpInterceptor,
   HttpErrorResponse
 } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -29,13 +30,36 @@ export class TokenInterceptor implements HttpInterceptor {
       catchError((err:any) => {
         if (err instanceof HttpErrorResponse){
           if (err.status === 401){
-            this.toast.warning({detail: "Warning", summary: "Token is expired, please login again"});
-            this.router.navigate(['login']);      
+            return this.handleUnAuthError(request, next);        
           }
         }
 
         return throwError(() => new Error("Some other error occurred"));
       })
     );
+  } 
+
+  handleUnAuthError(req: HttpRequest<any>, next: HttpHandler){
+    let tokenApiModel = new TokenApiModel();
+    tokenApiModel.accessToken = this.auth.getToken()!;
+    tokenApiModel.refreshToken = this.auth.getRefreshToken()!;
+
+    return this.auth.refreshToken(tokenApiModel)
+      .pipe(
+        switchMap((data: TokenApiModel) => {
+          this.auth.storeRefreshToken(data.refreshToken);
+          this.auth.storeToken(data.accessToken);
+          req = req.clone({
+            setHeaders: {Authorization: `Bearer ${data.accessToken}`}
+          })
+          return next.handle(req);
+        }),
+        catchError((err) => {
+          return throwError(() => {
+            this.toast.warning({detail: "Warning", summary: "Token is expired, please login again"});
+            this.router.navigate(['login']);
+          })
+        })
+      )
   }
 }
