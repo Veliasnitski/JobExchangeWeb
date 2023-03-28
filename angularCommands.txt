@@ -4,3 +4,4 @@ ng g c components/dashboard - new component (dashboard name)
 ng g g auth - create component for observer and guard route
 ng g interceptor token
 npm i @auth0/angular-jwt
+npm install --legacy-peer-deps - resolve conflinct dependency

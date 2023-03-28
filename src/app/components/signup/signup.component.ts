@@ -44,7 +44,6 @@ export class SignupComponent {
       this.auth.signUp(this.signupForm.value)
         .subscribe({ 
           next: (res) => {
-            console.log(res.message);
             this.signupForm.reset();
             this.toast.success({detail: "Success", summary: res.message, duration: 10000});
             this.router.navigate(['login']);

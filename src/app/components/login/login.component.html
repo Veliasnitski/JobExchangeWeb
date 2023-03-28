@@ -9,7 +9,8 @@
                     <div class="panel-body p-3">
                         <form [formGroup]="loginForm">
                             <div class="form-group pt-3">
-                                <div class="input-field" [class.error]="loginForm.controls['username'].dirty && loginForm.hasError('required','username')">
+                                <div class="input-field"
+                                    [class.error]="loginForm.controls['username'].dirty && loginForm.hasError('required','username')">
                                     <span class="fa fa-user p-2"></span>
                                     <input formControlName="username" type="text" placeholder="Username">
                                 </div>
@@ -18,7 +19,8 @@
                                 *ngIf="loginForm.controls['username'].dirty && loginForm.hasError('required','username')"
                                 class="text-danger">*Username is required</small>
                             <div class="form-group pt-3">
-                                <div class="input-field" [class.error]="loginForm.controls['password'].dirty && loginForm.hasError('required','password')">
+                                <div class="input-field"
+                                    [class.error]="loginForm.controls['password'].dirty && loginForm.hasError('required','password')">
                                     <span class="fa fa-lock p-2"></span>
                                     <input formControlName="password" [type]="type" placeholder="Password">
                                     <span (click)="hideShowPass()" class="fa {{eyeIcon}}"></span>
@@ -28,9 +30,10 @@
                                 *ngIf="loginForm.controls['password'].dirty && loginForm.hasError('required','password')"
                                 class="text-danger">*Password is required</small>
                             <div class="form-inline fr mt-4">
-                                <a id="forget" class="font-weight-bold">Forget password?</a>
+                                <a id="forget" data-bs-toggle="modal" data-bs-target="#forgetPassModal" class="font-weight-bold">Forget password?</a>
                             </div>
-                            <button (click)="onLogin()" type="submit" class="btn btn-primary btn-block mt-4 w-100">Login</button>
+                            <button (click)="onLogin()" type="submit"
+                                class="btn btn-primary btn-block mt-4 w-100">Login</button>
                             <div class="text-center pt-4 text-muted">Don't have account <a id="forget"
                                     routerLink="/signup">Sign Up</a></div>
                         </form>
@@ -44,6 +47,36 @@
                     </div>
 
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="forgetPassModal" tabindex="-1" aria-labelledby="forgetPassLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p id="forgetPassLabel" class="modal-title">
+                    <span style="font-size: 25px; font-weight: 700;">Forget your password?</span> <br>
+                    <small>Please provide your E-mail we will send the reset link</small>
+                </p>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group pt-3">
+                    <div class="input-field">
+                        <span class="fa fa-user p-2"></span>
+                        <input [(ngModel)]="resetPasswordEmail" (ngModelChange)="checkValidEmail($event)"  type="text" placeholder="Email">
+                    </div>
+                    <small *ngIf="!resetPasswordEmail" class="text-danger">*Email is required</small>
+                    <small *ngIf="!isValidEmail && resetPasswordEmail" class="text-danger">*Email is invalid</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="closeBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" (click)="confirmToSend()" class="btn btn-primary">Send</button>
             </div>
         </div>
     </div>
